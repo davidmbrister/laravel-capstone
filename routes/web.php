@@ -18,3 +18,10 @@ Route::resource('categories', 'CategoryController');
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+// This will allow the entering of '/logout' to the URL to work via GET
+Route::get('/logout', 'Auth\LoginController@logout');
+
+Route::get('/home', 'HomeController@index')->name('home');
+

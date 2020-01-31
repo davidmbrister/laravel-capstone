@@ -8,6 +8,11 @@ use Session;
 
 class CategoryController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -109,6 +114,18 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category = Category::find($id);
+        
+        if ($category->item()->exists())
+        {
+        $category->delete();
+        Session::flash('success','The category has been deleted');
+        }
+        else
+        {
+        Session::flash('message','The category has not been deleted');
+        }
+
+        return redirect()->route('categories.index');
     }
 }
