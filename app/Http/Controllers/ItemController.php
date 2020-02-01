@@ -66,6 +66,7 @@ class ItemController extends Controller
         $item->quantity = $request->quantity;
         $item->sku = $request->sku;
 
+        //TODO: imageIntervention has been installed so create a large image and a smaller image; 
         //save image
         if ($request->hasFile('picture')) {
             $image = $request->file('picture');
@@ -137,7 +138,9 @@ class ItemController extends Controller
         $item->price = $request->price;
         $item->quantity = $request->quantity;
         $item->sku = $request->sku;
-
+        
+        // TODO: imageIntervention has been installed so create a large image and a smaller image; 
+        // then hook the small picture up to the thumbnail view and the large one to the product (single) view
         //save image
         if ($request->hasFile('picture')) {
             $image = $request->file('picture');
