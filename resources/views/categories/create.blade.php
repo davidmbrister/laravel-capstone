@@ -19,7 +19,7 @@ Laravel Project
 @section('content')
 	
 	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
+		<div class="col-md-8 offset-md-2">
 			<h1>Add New Category</h1>
 			<hr/>
 
@@ -27,11 +27,10 @@ Laravel Project
 			                'files' => true]) !!}
 			    
 				{{ Form::label('name', 'Name:') }}
-			    {{ Form::text('name', null, ['class'=>'form-control', 'style'=>'', 
+        {{ Form::text('name', null, ['class'=>'form-control', 'style'=>'', 
 			                                  'data-parsley-required'=>'', 
 											  'data-parsley-maxlength'=>'100']) }}
-
-			    {{ Form::submit('Create Category', ['class'=>'btn btn-success btn-lg btn-block', 'style'=>'margin-top:20px']) }}
+        {{ Form::submit('Create Category', ['class'=>'btn btn-success btn-lg btn-block form-spacing-top', 'style'=>'']) }}
 
 			{!! Form::close() !!}
 

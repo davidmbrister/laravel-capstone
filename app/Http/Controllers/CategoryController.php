@@ -116,7 +116,7 @@ class CategoryController extends Controller
     {
         $category = Category::find($id);
         
-        if ($category->item()->exists())
+        if (!$category->item()->exists())
         {
         $category->delete();
         Session::flash('success','The category has been deleted');

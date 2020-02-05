@@ -29,7 +29,7 @@ Laravel Project
 
 	<div class="row">
 		{!! Form::model($item, ['route' => ['items.update', $item->id], 'method'=>'PUT', 'data-parsley-validate' => '', 'files' => true]) !!}
-		<div class="col-md-6 col-md-offset-2">
+		<div class="col-md-6 offset-md-2">
 
 			<h1>Edit Post</h1>
 			<hr/>
