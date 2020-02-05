@@ -31,6 +31,9 @@
               <a class="dropdown-item" href="{{route('categories.index')}}">Categories</a>
               <div class="dropdown-divider"></div>
 
+              <a class="dropdown-item" href="{{route('store.index')}}">Store</a>
+              <div class="dropdown-divider"></div>
+
              <a class="dropdown-item" onclick="
              document.getElementById('logout-form').submit();" href="#">Logout</a>
 

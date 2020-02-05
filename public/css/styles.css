@@ -1,14 +1,5 @@
-.btn-h1-spacing {
-	margin-top: 18px;
-}
-
-.form-spacing-top
-{
-    margin-top: 30px;
-}
-
-ul.navbar-nav li.active {
-	background-color: #FFF !important;
+/* ul.navbar-nav li.active {
+background-color: #FFF !important;
   border-color: #FFF !important;
   border-top-style:2px solid black;
 }
@@ -62,14 +53,28 @@ ul.navbar-nav li.active {
 		height: 45px;
 	}
 }
-
-
- .btn-h1-spacing
+ */
+.form-spacing-top
 {
-    margin-top: 18px;
+    margin-top: 30px;
+}
+
+/*Regulating rules*/
+.btn-h1-spacing {
+	margin-top: 18px;
 }
 
 .form-spacing-top
 {
     margin-top: 30px;
+}
+
+.min-button-width
+{
+	min-width: 75px;
+}
+
+.no-b-radius
+{
+border-radius: 0px;
 }

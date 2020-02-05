@@ -28,37 +28,37 @@ Laravel Project
 @section('content')
 
 	<div class="row">
-		{!! Form::model($item, ['route' => ['items.update', $item->id], 'method'=>'PUT', 'data-parsley-validate' => '', 'files' => true]) !!}
-		<div class="col-md-6 offset-md-2">
+		<div class=" col-md-7 offset-md-1">
+			{!! Form::model($item, ['route' => ['items.update', $item->id], 'method'=>'PUT', 'data-parsley-validate' => '', 'files' => true]) !!}
 
 			<h1>Edit Post</h1>
 			<hr/>
 
 			{{ Form::label('title', 'Name:') }}
-			    {{ Form::text('title', null, ['class'=>'form-control', 'style'=>'', 
+			{{ Form::text('title', null, ['class'=>'form-control', 'style'=>'', 
 			                                  'data-parsley-required'=>'', 
 											  'data-parsley-maxlength'=>'255']) }}
 
-				{{ Form::label('category_id', 'Category:', ['style'=>'margin-top:20px']) }}
-				<select name='category_id' class='form-control' data-parsley-required="true">
-					<option value="">Select Category</option>
-					@foreach ($categories as $category)
-						<option value='{{ $category->id }}' {{ ($category->id == $item->category_id) ? " selected " : "" }}>{{ $category->name }}</option>
-					@endforeach
-				</select>
+				{{ Form::label('category_id', 'Category:', ['class' => 'form-spacing-top']) }}
+					<select name='category_id' class='form-control' data-parsley-required="true">
+						<option value="">Select Category</option>
+						@foreach ($categories as $category)
+							<option value='{{ $category->id }}' {{ ($category->id == $item->category_id) ? " selected " : "" }}>{{ $category->name }}</option>
+						@endforeach
+					</select>
 
-			   {{ Form::label('description', 'Description:', ['style'=>'margin-top:20px']) }}
+			   {{ Form::label('description', 'Description:', ['class' => 'form-spacing-top']) }}
 			    {{ Form::textarea('description', null, ['class'=>'form-control']) }}
 
-				{{ Form::label('price', 'Price:', ['style'=>'margin-top:20px']) }}
+				{{ Form::label('price', 'Price:', ['class' => 'form-spacing-top']) }}
 			    {{ Form::text('price', null, ['class'=>'form-control', 'style'=>'', 
 			                                  'data-parsley-required'=>'']) }}
 
-				{{ Form::label('quantity', 'Quantity:', ['style'=>'margin-top:20px']) }}
+				{{ Form::label('quantity', 'Quantity:', ['class' => 'form-spacing-top']) }}
 			    {{ Form::text('quantity', null, ['class'=>'form-control', 'style'=>'', 
 											  'data-parsley-required'=>'']) }}
 											  
-				{{ Form::label('sku', 'SKU:', ['style'=>'margin-top:20px']) }}
+				{{ Form::label('sku', 'SKU:', ['class' => 'form-spacing-top']) }}
 			    {{ Form::text('sku', null, ['class'=>'form-control', 'style'=>'', 
 											  'data-parsley-required'=>'']) }}
 
@@ -66,14 +66,14 @@ Laravel Project
 				    <p style='margin-top:20px'>Current Image:<br><img src="{{ Storage::url('images/items/'.$item->picture) }}" style='height:100px;' ></p>
 			    @endif
 
-				{{ Form::label('picture', 'Picture:', ['style'=>'margin-top:20px']) }}
+				{{ Form::label('picture', 'Picture:', ['class' => 'form-spacing-top']) }}
 			    {{ Form::file('picture', null, ['class'=>'form-control', 
 				                                       'style'=>'',
 													   'data-parsley-required'=>'']) }}
 		
 		</div>
 		<div class="col-md-4">
-			<div class="well" style="margin-top: 20px">
+			<div class="card card-body bg-light form-spacing-top">
 				<dl class="dl-horizontal">
 					<dt>Created At:</dt>
 					<dd>{{ date('M j, Y h:ia', strtotime($item->created_at)) }}</dd>

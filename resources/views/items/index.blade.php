@@ -37,13 +37,13 @@ Laravel Project
 					@foreach ($items as $item)
 						<tr>
 							<th>{{ $item->id }}</th>
-                  <td>{{ $item->name }}</td>
+                  <td>{{ $item->title }}</td>
                   <td>{{date('M j, Y',strtotime($item->created_at))}}</td>
                   <td>{{date('M j, Y',strtotime($item->updated_at))}}</td>
-                  <td class="btn-group"> <a href="{{ route('items.edit', $item->id)}}" class="btn btn-block btn-outline-primary mr-1">Edit</a> 
+                  <td class="btn-group"> <a href="{{ route('items.edit', $item->id)}}" class="btn btn-block btn-outline-primary min-button-width no-b-radius">Edit</a> 
 							
                       {!! Form::open(['route' => ['items.destroy', $item->id], 'method'=>'DELETE']) !!}
-                      {{  Form::submit('Delete', ['class'=>'btn btn-outline-danger btn-block', 'style'=>'', 'onclick'=>'return confirm("Are you sure?")']) }}
+                      {{  Form::submit('Delete', ['class'=>'btn btn-outline-danger btn-block min-button-width no-b-radius ml-1', 'style'=>'', 'onclick'=>'return confirm("Are you sure?")']) }}
                       {!! Form::close() !!}	    
               
                   </td>

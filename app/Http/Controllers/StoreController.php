@@ -12,13 +12,13 @@ class StoreController extends Controller
     {
         $items = Item::paginate(10);
 
-        return view('blog.index')->withItems($items);
+        return view('store.index')->withItems($items);
     }
     public function getSingle($slug)
     {
         //fetch record with slug
-        $post = Post::where('slug', '=', $slug)->first();
+        $item = Item::where('slug', '=', $slug)->first();
 
-        return view('blog.single')->withPost($post);
+        return view('blog.single')->withItem($item);
     }
 }
