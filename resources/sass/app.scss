@@ -18,8 +18,8 @@
     &:hover
     {
       color: $offwhite !important;
-      font
     }
+
   }
   .dropdown > .nav-link
   {
@@ -47,3 +47,8 @@
 border-radius: 0px;
 }
 
+
+.store-nav
+{
+  float: left;
+}

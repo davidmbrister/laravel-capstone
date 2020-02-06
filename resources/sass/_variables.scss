@@ -6,7 +6,7 @@ $offwhite:    #EEE8D6;
 $darkblue:    #022933;
 $yellow:      #FFBA00;
 $blue:        #0076A3;
-$green:       #3c9c32;
+$green:       #548C27;
 $orange:      #F39856;
 $red:         #D14348;
 $purple:      #6D73C2;
@@ -15,13 +15,15 @@ $purple:      #6D73C2;
 $color-main: $darkblue;
 $color-backgrounds: $offwhite;
 $color-headlines: $red;
-
 $nunito: Nunito, sans-serif;
 
 $font-main: Merriweather, Helvetica, sans-serif;
 $font-highlight: 'Bree Serif', Helvetica, sans-serif;
 
-// Breakpoints
+//Breakpoints
+
 $small:		450px;
 $medium:	760px;
 $large:		1200px;
+
+

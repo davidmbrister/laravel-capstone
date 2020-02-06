@@ -8,6 +8,7 @@
     <!-- Bootstrap -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <!-- Base CSS -->
+    {!! Html::style('/css/app.css') !!} 
     {!! Html::style('/css/styles.css') !!} 
     <!-- Supplemental CSS -->
     @yield('css')
@@ -16,10 +17,9 @@
 
   <body>
 
-      @include('partials._navigation')
+      @include('partials._navPublic')
     
-      <div class="container form-spacing-top"> 
-        {{Auth::check()?"Logged in": "Logged out"}}
+      <div class="container"> 
           @include('partials._messages')
           @yield('content')
           
