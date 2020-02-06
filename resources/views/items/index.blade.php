@@ -26,7 +26,8 @@ Laravel Project
 			<table class="table">
 				<thead>
 					<th>#</th>
-					<th>Name</th>
+          <th>Name</th>
+          <th>Image</th>
 					<th>Created At</th>
 					<th>Last Modified</th>
 					<th></th>
@@ -40,6 +41,7 @@ Laravel Project
                   <td>{{ $item->title }}</td>
                   <td>{{date('M j, Y',strtotime($item->created_at))}}</td>
                   <td>{{date('M j, Y',strtotime($item->updated_at))}}</td>
+                  <td><img src="{{ asset('images/' . $item->image)}}" height="75" width="75" /></td>
                   <td class="btn-group"> <a href="{{ route('items.edit', $item->id)}}" class="btn btn-block btn-outline-primary min-button-width no-b-radius">Edit</a> 
 							
                       {!! Form::open(['route' => ['items.destroy', $item->id], 'method'=>'DELETE']) !!}
