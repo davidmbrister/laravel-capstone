@@ -1,5 +1,3 @@
-// Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
 
 // Variables
 @import 'variables';
@@ -8,6 +6,27 @@
 @import '~bootstrap/scss/bootstrap';
 
 
+.navbar
+{
+  background-color: $blue !important;
+  .navbar-brand, .nav-item, .nav-link
+  {
+    //color: adjust-hue($green, 300deg) !important;
+    color: scale-color(adjust-hue(complement($blue), 50deg), $lightness: 15%, $saturation: 10%) !important; //=> color 
+    font-family: $nunito, $font-highlight !important;
+    
+    &:hover
+    {
+      color: $offwhite !important;
+      font
+    }
+  }
+  .dropdown > .nav-link
+  {
+    // properly aligns items list in toggled hamburger
+      padding: 0px;  
+  }
+}
 /*Regulating rules*/
 .btn-h1-spacing {
 	margin-top: 18px;
@@ -27,3 +46,4 @@
 {
 border-radius: 0px;
 }
+
