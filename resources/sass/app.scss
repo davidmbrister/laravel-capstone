@@ -4,22 +4,27 @@
 @import 'variables';
 @import 'base';
 @import 'mixins';
-@import 'interface';
+@import 'interface'; // so far this is just the public store interface which could be a module
 // Website Components
 @import'modules/navigation';
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-// Store category query sidebar
-
+// Category query sidebar for public store index
 .categories
 {
-  float: left;
-  h1,h2,h3
-  {
-    font-family: $font-main;
-  
+  @include break(800px) {
+    display: block;
+    h1,h2,h3
+    {
+      font-family: $font-main;
+      float: left;
+    }
   }
+  @include break(200px, 800px) { // do something else in this break to show category 
+    display: none; // i need to have another class that shows when this is hidden (because I can't access the bootstrap grid from within this scope) 
+  }
+
   background-image:  
   linear-gradient(#0076A3,rgb(137, 139, 161));
   

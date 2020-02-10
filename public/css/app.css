@@ -11956,17 +11956,29 @@ a.text-dark:focus {
 }
 
 .categories {
-  float: left;
   background-image: -webkit-gradient(linear, left top, left bottom, from(#0076A3), to(#898ba1));
   background-image: linear-gradient(#0076A3, #898ba1);
   border-bottom: 2px solid #2a8ab1;
   border-right: 2px solid #2a8ab1;
 }
 
-.categories h1,
-.categories h2,
-.categories h3 {
-  font-family: Merriweather, Helvetica, sans-serif;
+@media (min-width: 800px) {
+  .categories {
+    display: block;
+  }
+
+  .categories h1,
+  .categories h2,
+  .categories h3 {
+    font-family: Merriweather, Helvetica, sans-serif;
+    float: left;
+  }
+}
+
+@media (min-width: 200px) and (max-width: 800px) {
+  .categories {
+    display: none;
+  }
 }
 
 /*Regulating rules*/
