@@ -10,11 +10,14 @@ $green:       #3c9c32;
 $orange:      #F39856;
 $red:         #D14348;
 $purple:      #6D73C2;
+$light-blue: rgb(149, 216, 243);
 
 
 $color-main: $darkblue;
 $color-backgrounds: $offwhite;
-$color-headlines: $red;
+$color-headlines: mix(#8f6c6c,  #8bceae, 0.5);
+
+$color-btn-hot: rgba(91, 189, 181, 0.616);
 
 $nunito: Nunito, sans-serif;
 

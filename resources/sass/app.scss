@@ -1,40 +1,40 @@
 
 // Variables
+@import 'normalize';
 @import 'variables';
-
+@import 'base';
+@import 'mixins';
+@import 'interface';
+// Website Components
+@import'modules/navigation';
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+// Store category query sidebar
 
-.navbar
+.categories
 {
-  background-color: $blue !important;
-  .navbar-brand, .nav-item, .nav-link
+  float: left;
+  h1,h2,h3
   {
-    //color: adjust-hue($green, 300deg) !important;
-    color: scale-color(adjust-hue(complement($blue), 50deg), $lightness: 15%, $saturation: 10%) !important; //=> color 
-    font-family: $nunito, $font-highlight !important;
-    
-    &:hover
-    {
-      color: $offwhite !important;
-      font
-    }
+    font-family: $font-main;
+  
   }
-  .dropdown > .nav-link
-  {
-    // properly aligns items list in toggled hamburger
-      padding: 0px;  
-  }
+  background-image:  
+  linear-gradient(#0076A3,rgb(137, 139, 161));
+  
+  border-bottom: 2px solid rgb(42, 138, 177);
+  border-right: 2px solid rgb(42, 138, 177);
 }
-/*Regulating rules*/
+
+/*Regulating rules*/ // Try to put these somehwere else, for now they square the buttons and add top margin to the body
 .btn-h1-spacing {
 	margin-top: 18px;
 }
 
 .form-spacing-top
 {
-    margin-top: 30px;
+  margin-top: 30px;
 }
 
 .min-button-width

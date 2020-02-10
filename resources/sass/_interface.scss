@@ -1,0 +1,86 @@
+$color-btn-text: $color-backgrounds;
+$color-btn-default: $color-main;
+$color-btn-hot: $red;
+$color-btn-cool: $blue;
+$roundness: 20px 0 20px 0;
+/* 
+%btn {
+	display: inline-block;
+	padding: 6px 12px;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	cursor: pointer;
+	border: none;
+	border-radius: 4px;
+	font-family: $font-highlight;
+	user-select: none;
+	color: $color-btn-text;
+}
+
+.btn-default {
+	@extend %btn;
+  background: $color-btn-default;
+  border: 2px $blue dotted;
+}
+
+.btn-hot {
+	@extend %btn;
+	background: $color-btn-hot;
+}
+
+.btn-cool {
+	@extend %btn;
+	background: $color-btn-cool;
+} */
+
+.grid {
+	@include clearfix;
+	.item {
+		float: left;
+		@include cardgrid(4, 4%, 50px);
+  }
+  
+	.product-card { // title, product_id, description, price, quantity, sku
+		display: block;
+		border-radius: nth($roundness, 4);
+		max-width: 100%;
+  }
+  
+}
+
+.product-card {
+  
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 300px;
+  margin: auto;
+  text-align: center;
+  font-family: arial;
+  
+  img {
+    max-width: 100%;
+    padding-bottom:5%;
+  }
+
+  .price {
+    color: grey;
+    font-size: 22px;
+  }
+
+  button {
+    border: none;
+    outline: 0;
+    padding: 12px;
+    color: white;
+    background-color: #000;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1.25rem;
+  }
+
+    button:hover {
+    opacity: 0.7;
+  }
+
+}

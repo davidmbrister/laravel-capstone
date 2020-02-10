@@ -15,8 +15,8 @@ Laravel Project
   <div class="col-md-10">
       <h1>All Items</h1>
   </div>
-  <div class="col-md-2">
-  <a href="{{route('items.create')}}" class="btn btn-small btn-primary btn-h1-spacing">Create New</a>
+  <div class="col-md-2 ml-auto float-right">
+  <a href="{{route('items.create')}}" class="btn btn-small btn-primary">Create New</a>
   <hr>
   </div>
 </div>
