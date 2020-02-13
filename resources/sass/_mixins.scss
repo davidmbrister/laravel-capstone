@@ -32,6 +32,7 @@
     margin-right: 0;
     margin-bottom: 0;
   }
+  // of course with last-child you could throw in some code to change the arrangement if trailing items don't take up a full row -- to change the spacing
 }
 
 @mixin break($args...) {

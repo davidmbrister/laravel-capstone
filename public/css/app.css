@@ -515,7 +515,7 @@ h6 {
 
 .grid .item:nth-child(n) {
   margin-right: 4%;
-  margin-bottom: 50px;
+  margin-bottom: 4%;
 }
 
 .grid .item:nth-child(4n) {
@@ -11971,7 +11971,6 @@ a.text-dark:focus {
   .categories h2,
   .categories h3 {
     font-family: Merriweather, Helvetica, sans-serif;
-    float: left;
   }
 }
 
@@ -11979,6 +11978,11 @@ a.text-dark:focus {
   .categories {
     display: none;
   }
+}
+
+.categories a {
+  font-family: Nunito, sans-serif;
+  color: #EEE8D6;
 }
 
 /*Regulating rules*/

@@ -69,6 +69,26 @@ class ItemController extends Controller
         //TODO: imageIntervention has been installed so create a large image and a smaller image; 
         //save image
         if ($request->hasFile('picture')) {
+          /*   $image = $request->file('picture');
+            //tn_
+            
+            //tn_
+            $image = Image::make($image)->resize(200, 200);
+            $filename1 = 'tn_' . time() . '.' . $image->getClientOriginalExtension();
+            $location ='images/items/' . $filename1;
+            Storage::disk('public')->put($location, (string) $image->encode());
+
+            //lrg_
+            
+            //lrg_
+            $image = Image::make($image)->resize(400, 400);
+            $filename2 = 'lrg_' . time() . '.' . $image->getClientOriginalExtension();
+            $location ='images/items/' . $filename2;
+            Storage::disk('public')->put($location, (string) $image->encode());
+            
+            
+            
+            
             $image = $request->file('picture');
 
             $filename = time() . '.' . $image->getClientOriginalExtension();
@@ -77,6 +97,29 @@ class ItemController extends Controller
             $image = Image::make($image);
             Storage::disk('public')->put($location, (string) $image->encode());
             $item->picture = $filename;
+            */
+            $image = $request->file('picture');
+            //tn_
+            $sharedTime = time();
+            $sharedFileName = $sharedTime . '.' . $image->getClientOriginalExtension();
+            $filename1 = 'tn_' . $sharedTime . '.' . $image->getClientOriginalExtension();
+            $location ='images/items/' . $filename1;
+            
+            $imageSmall = Image::make($image)->resize(200, 200);
+
+            Storage::disk('public')->put($location, (string) $imageSmall->encode());
+
+            // single database name for both as they have predictable prefixes
+            $item->picture = $sharedFileName;
+
+            //lrg_
+            $filename2 = 'lrg_' . $sharedTime . '.' . $image->getClientOriginalExtension();
+            $imageLarge = Image::make($image)->resize(400, 400);
+            $location ='images/items/' . $filename2;
+            Storage::disk('public')->put($location, (string) $imageLarge->encode());
+
+            //dd($filename1, $filename2);
+
         }
 
         $item->save(); //saves to DB
@@ -143,20 +186,36 @@ class ItemController extends Controller
         // then hook the small picture up to the thumbnail view and the large one to the product (single) view
         //save image
         if ($request->hasFile('picture')) {
+          
             $image = $request->file('picture');
+            //tn_ and lrg_
+            //tn_
+            $sharedTime = time();
+            $sharedFileName = $sharedTime . '.' . $image->getClientOriginalExtension();
+            $filename1 = 'tn_' . $sharedTime . '.' . $image->getClientOriginalExtension();
+            //dd($filename1);
+            $location ='images/items/' . $filename1;
+            
+            $imageSmall = Image::make($image)->resize(200, 200);
 
-            $filename = time() . '.' . $image->getClientOriginalExtension();
-            $location ='images/items/' . $filename;
+            Storage::disk('public')->put($location, (string) $imageSmall->encode());
 
-            $image = Image::make($image);
-            Storage::disk('public')->put($location, (string) $image->encode());
-
+            
+            //lrg_
+            $filename2 = 'lrg_' . $sharedTime . '.' . $image->getClientOriginalExtension();
+            $imageLarge = Image::make($image)->resize(400, 400);
+            $location ='images/items/' . $filename2;
+            Storage::disk('public')->put($location, (string) $imageLarge->encode());
+            
             if (isset($item->picture)) {
-                $oldFilename = $item->picture;
-                Storage::delete('public/images/items/'.$oldFilename);                
+              $oldFilename1 = 'tn_' . $item->picture;
+              $oldFilename2 = 'lrg_' .$item->picture;
+              
+              Storage::disk('public')->delete(['images/items/'.$oldFilename1, 'images/items/'.$oldFilename2]);                 
             }
-
-            $item->picture = $filename;
+            
+            // single database name for both as they have predictable prefixes
+            $item->picture = $sharedFileName;
         }
 
         $item->save(); //saves to DB
@@ -178,8 +237,11 @@ class ItemController extends Controller
     {
         $item = Item::find($id);
         if (isset($item->picture)) {
-            $oldFilename = $item->picture;
-            Storage::delete('public/images/items/'.$oldFilename);                
+          $oldFilename1 = 'tn_' . $item->picture;
+          $oldFilename2 = 'lrg_' .$item->picture;
+          
+          Storage::disk('public')->delete(['images/items/'.$oldFilename1, 'images/items/'.$oldFilename2]);                
+          
         }
         $item->delete();
 

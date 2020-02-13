@@ -37,11 +37,11 @@ $roundness: 20px 0 20px 0;
 .grid {
 	@include clearfix;
 	.item {
-		float: left;
-		@include cardgrid(4, 4%, 50px);
+		float: left; // maybe this should go in the cardgrid class
+		@include cardgrid(4, 4%);
   }
   
-	.product-card { // title, product_id, description, price, quantity, sku
+	.product-card { // title, price, add to cart
 		display: block;
 		border-radius: nth($roundness, 4);
 		max-width: 100%;

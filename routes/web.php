@@ -19,6 +19,9 @@ Route::get('/', 'StoreController@getIndex');
 
 Route::get('store', 'StoreController@getIndex')->name('store.index');
 
+// create a named route store.category; when route is followed it calls itemsByCategory  
+Route::get('store/{category}',['as' => 'store.category', 'uses' => 'StoreController@itemsByCategory']);
+
 /* Route::get('/', function () {
     return view('welcome');
 }); */

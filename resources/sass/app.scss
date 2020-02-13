@@ -11,18 +11,23 @@
 @import '~bootstrap/scss/bootstrap';
 
 // Category query sidebar for public store index
-.categories
+.categories // put this in an _interface sheet with the item/row display mixin
 {
   @include break(800px) {
     display: block;
     h1,h2,h3
     {
       font-family: $font-main;
-      float: left;
+
     }
   }
   @include break(200px, 800px) { // do something else in this break to show category 
-    display: none; // i need to have another class that shows when this is hidden (because I can't access the bootstrap grid from within this scope) 
+    display: none; // i need to have another class that shows when this is hidden [like a drawer menu] (because I can't access the bootstrap grid from within this scope) 
+  }
+
+  a {
+    font-family: $nunito;
+    color: $offwhite;
   }
 
   background-image:  

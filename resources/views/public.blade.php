@@ -20,7 +20,7 @@
       @include('partials._navigation')
     
       <div class="container form-spacing-top"> 
-        {{Auth::check()?"Logged in": "Logged out"}}
+        {{-- {{Auth::check()?"Logged in": "Logged out"}} --}}
           @include('partials._messages')
           @yield('content')
           
