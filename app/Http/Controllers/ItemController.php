@@ -55,6 +55,7 @@ class ItemController extends Controller
                                    'price'=>'required|numeric',
                                    'quantity'=>'required|integer',
                                    'sku'=>'required|string|max:100',
+                                   'slug'=>'required|alpha-dash|min:5|max:255|unique:items',
                                    'picture' => 'required|image']); 
 
         //send to DB (use ELOQUENT)
@@ -65,39 +66,12 @@ class ItemController extends Controller
         $item->price = $request->price;
         $item->quantity = $request->quantity;
         $item->sku = $request->sku;
+        $item->slug = $request->slug;
 
         //TODO: imageIntervention has been installed so create a large image and a smaller image; 
         //save image
         if ($request->hasFile('picture')) {
-          /*   $image = $request->file('picture');
-            //tn_
-            
-            //tn_
-            $image = Image::make($image)->resize(200, 200);
-            $filename1 = 'tn_' . time() . '.' . $image->getClientOriginalExtension();
-            $location ='images/items/' . $filename1;
-            Storage::disk('public')->put($location, (string) $image->encode());
-
-            //lrg_
-            
-            //lrg_
-            $image = Image::make($image)->resize(400, 400);
-            $filename2 = 'lrg_' . time() . '.' . $image->getClientOriginalExtension();
-            $location ='images/items/' . $filename2;
-            Storage::disk('public')->put($location, (string) $image->encode());
-            
-            
-            
-            
-            $image = $request->file('picture');
-
-            $filename = time() . '.' . $image->getClientOriginalExtension();
-            $location ='images/items/' . $filename;
-
-            $image = Image::make($image);
-            Storage::disk('public')->put($location, (string) $image->encode());
-            $item->picture = $filename;
-            */
+        
             $image = $request->file('picture');
             //tn_
             $sharedTime = time();
@@ -117,8 +91,6 @@ class ItemController extends Controller
             $imageLarge = Image::make($image)->resize(400, 400);
             $location ='images/items/' . $filename2;
             Storage::disk('public')->put($location, (string) $imageLarge->encode());
-
-            //dd($filename1, $filename2);
 
         }
 
@@ -172,6 +144,7 @@ class ItemController extends Controller
                                    'price'=>'required|numeric',
                                    'quantity'=>'required|integer',
                                    'sku'=>'required|string|max:100',
+                                   'slug'=>'required|alpha-dash|min:5|max:255|unique:items',
                                    'picture' => 'sometimes|image']);             
 
         //send to DB (use ELOQUENT)
@@ -181,6 +154,7 @@ class ItemController extends Controller
         $item->price = $request->price;
         $item->quantity = $request->quantity;
         $item->sku = $request->sku;
+        $item->slug = $request->slug;
         
         // TODO: imageIntervention has been installed so create a large image and a smaller image; 
         // then hook the small picture up to the thumbnail view and the large one to the product (single) view
@@ -199,8 +173,7 @@ class ItemController extends Controller
             $imageSmall = Image::make($image)->resize(200, 200);
 
             Storage::disk('public')->put($location, (string) $imageSmall->encode());
-
-            
+          
             //lrg_
             $filename2 = 'lrg_' . $sharedTime . '.' . $image->getClientOriginalExtension();
             $imageLarge = Image::make($image)->resize(400, 400);

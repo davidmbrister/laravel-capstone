@@ -60,11 +60,15 @@ Laravel Project
 											  
 				{{ Form::label('sku', 'SKU:', ['class' => 'form-spacing-top']) }}
 			    {{ Form::text('sku', null, ['class'=>'form-control', 'style'=>'', 
-											  'data-parsley-required'=>'']) }}
+                        'data-parsley-required'=>'']) }}
+
+        {{ Form::label('slug', 'Slug:', ['class'=>'form-spacing-top']) }}
+        {{ Form::text('slug', null, ['class'=>'form-control', 'style'=>'', 
+                        'data-parsley-required'=>'', 'minlength' => '5', 'maxlength' => '255']) }}
 
 				@if ($item->picture != "")
 				    <p style='margin-top:20px'>Current Image:<br><img src="{{ Storage::url('images/items/'.'tn_'.$item->picture) }}" style='height:100px;' ></p>
-			    @endif
+        @endif
 
 				{{ Form::label('picture', 'Picture:', ['class' => 'form-spacing-top']) }}
 			    {{ Form::file('picture', null, ['class'=>'form-control', 

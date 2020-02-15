@@ -60,12 +60,18 @@ Laravel Project
 											  
 				{{ Form::label('sku', 'SKU:', ['class'=>'form-spacing-top']) }}
         {{ Form::text('sku', null, ['class'=>'form-control', 'style'=>'', 
-											  'data-parsley-required'=>'']) }}
-											  
+                        'data-parsley-required'=>'']) }}
+                        
+        {{ Form::label('slug', 'Slug:', ['class'=>'form-spacing-top']) }}
+        {{ Form::text('slug', null, ['class'=>'form-control', 'style'=>'', 
+                        'data-parsley-required'=>'', 'minlength' => '5', 'maxlength' => '255']) }}
+                        
 				{{ Form::label('picture', 'Picture:', ['class'=>'form-spacing-top']) }}
         {{ Form::file('picture', null, ['class'=>'form-control', 
 				                                       'style'=>'',
-													   'data-parsley-required'=>'']) }}
+                             'data-parsley-required'=>'']) }}
+                             
+        
 
         {{ Form::submit('Create Item', ['class'=>'btn btn-success btn-lg btn-block', 'style'=>'']) }}
 

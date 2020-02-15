@@ -18,7 +18,6 @@
     h1,h2,h3
     {
       font-family: $font-main;
-
     }
   }
   @include break(200px, 800px) { // do something else in this break to show category 

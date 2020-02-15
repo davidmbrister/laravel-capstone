@@ -24,11 +24,11 @@
 }
 @mixin cardgrid($qty, $margin, $marginBottom: $margin) {
   width: ((100% - (($qty - 1) * $margin))/$qty);
-  &:nth-child(n) {
+  &:nth-child(n) { // all of 'em 
     margin-right: $margin;
     margin-bottom: $marginBottom;
   }
-  &:nth-child(#{$qty}n) {
+  &:nth-child(#{$qty}n) { // overwrite the last in each row to have to padding
     margin-right: 0;
     margin-bottom: 0;
   }
