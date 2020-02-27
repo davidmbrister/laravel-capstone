@@ -1,22 +1,30 @@
 <?php
-
+// AKA the public controller, session handling will happen in here
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Item;
 use App\Category;
+use Session;
 
 class StoreController extends Controller
 {
     // get public view for non-admin 
     public function getIndex()
     {
+      $clientIP = request()->ip();
+      $session_id = session()->getId();
+
+   
+
+      dd($clientIP, $session_id);
+
         $items = Item::paginate(20);
         $categories = Category::all()->sortBy('name');
 
         return view('store.index')->withItems($items)->withCategories($categories);
     }
-    // I WANT TO ADD SLUGS -- REVIEW THIS
+    // Slugs successfully added
     public function getSingle($slug)
     {
         //fetch record with slug
@@ -37,4 +45,6 @@ class StoreController extends Controller
 
         return view('store.index')->withItems($items)->withCategories($categories);
     }
+    // an addToCart function that accepts an array of session data
+
 }
