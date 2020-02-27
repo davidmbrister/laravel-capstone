@@ -12,12 +12,14 @@ class StoreController extends Controller
     // get public view for non-admin 
     public function getIndex()
     {
-      $clientIP = request()->ip();
+      /* $clientIP = request()->ip();
       $session_id = session()->getId();
+    */
+    $ipAddress = "";
+    $clientID = "";
+      list($ipAddress, $clientID) = $this->checkForIpAndId(); // this function has side effects as well as return values -- it sets the session vars and returns them as string vars
 
-   
-
-      dd($clientIP, $session_id);
+      dd($ipAddress, $clientID);
 
         $items = Item::paginate(20);
         $categories = Category::all()->sortBy('name');
@@ -45,6 +47,43 @@ class StoreController extends Controller
 
         return view('store.index')->withItems($items)->withCategories($categories);
     }
-    // an addToCart function that accepts an array of session data
+    // Add a check session function since it will be used often
+    private function checkForIpAndId()
+    {
+      if (session()->has('ipAddress') && session()->has('sessiondID') )
+      {
+        print("firstIFstatement\n");
+        $ipAddress = session('ipAddress');
+        $clientID = session('sessionID');
 
+      } else if (session()->has('ipAddress'))
+      {
+        print("secondIFstatement\n");
+        // set the session in the session and copy into var to return
+        $ipAddress = session('ipAddress');
+        $clientID = session()->getID();
+        session(['clientID' => $clientID]);
+        
+      } else if (session()->has('sessionID'))
+      {
+        print("thidIFstatement\n");
+        // set the ipAddress in the session and copy into var to return
+        $clientID = session('sessionID');
+        $ipAddress = request()->ip();
+        session(['ipAddress' => $ipAddress]);
+
+      } else
+      {
+        print("lastIFstatement\n");
+        // set both 
+        $clientID = session()->getID();
+        $ipAddress = request()->ip();
+
+        session(['clientID' => $clientID]);
+        session(['ipAddress' => $ipAddress]);
+      }
+      print("IF block exited\n");
+      return [$ipAddress, $clientID];
+    }
+    // An addToCart function that accepts an array of session data
 }
