@@ -8,6 +8,7 @@ use App\Item;
 use Image;
 use Storage;
 use Session;
+use Illuminate\Validation\Rule;
 
 class ItemController extends Controller
 {
@@ -55,7 +56,7 @@ class ItemController extends Controller
                                    'price'=>'required|numeric',
                                    'quantity'=>'required|integer',
                                    'sku'=>'required|string|max:100',
-                                   'slug'=>'required|alpha-dash|min:5|max:255|unique:items',
+                                   'slug'=>'required|alpha-dash|min:5|max:255|unique:items',                                   
                                    'picture' => 'required|image']); 
 
         //send to DB (use ELOQUENT)
@@ -138,14 +139,27 @@ class ItemController extends Controller
         //validate the data
         // if fails, defaults to create() passing errors
         $item = Item::find($id);
-        $this->validate($request, ['title'=>'required|string|max:255',
+        $this->validate($request, array(
+          'title'=>'required|string|max:255',
+          'category_id'=>'required|integer|min:0',
+          'description'=>'required|string',
+          'price'=>'required|numeric',
+          'quantity'=>'required|integer',
+          'sku'=>'required|string|max:100',
+
+          'slug' => ['required', 'alpha_dash', 'min:5', 'max:255',
+          Rule::unique('items')->ignore($request->slug, 'slug')],
+          'picture' => 'sometimes|image'
+         ));
+/*         $this->validate($request, ['title'=>'required|string|max:255',
                                    'category_id'=>'required|integer|min:0',
                                    'description'=>'required|string',
                                    'price'=>'required|numeric',
                                    'quantity'=>'required|integer',
                                    'sku'=>'required|string|max:100',
-                                   'slug'=>'required|alpha-dash|min:5|max:255|unique:items',
-                                   'picture' => 'sometimes|image']);             
+                                   'slug'=>['required|alpha-dash|min:5|max:255|unique:items',
+                                   Rule::unique('items')->ignore($request->slug, 'slug')],
+                                   'picture' => 'sometimes|image']);   */           
 
         //send to DB (use ELOQUENT)
         $item->title = $request->title;
