@@ -28,12 +28,40 @@ Public Store
     
     <div class="col-md-9">
       <div class="grid">
-      @foreach ($items as $item)
-      <div class="item"><div class = "product-card"><a href="{{ route('store.single', $item->slug) }}"><img src="{{ Storage::url('images/items/'.'tn_'.$item->picture) }}" alt="thumbnail"/></a><h3><a href="{{ route('store.single', $item->slug) }}">{{$item->title}}</a></h3><br /> <p class = "price">${{$item->price}}</p><br /> <a href="{{ route('store.updateCart', ['id' => $item->id, 'amount' => 1])}}"><button>Buy Now </button></a></div></div>
-      @endforeach
-      <div class="item"><div class = "product-card"><img src="http://placehold.it/200x200" alt="thumbnail"><h3>[product name]</h3><br /> <p class = "price">$[price]]</p><br /> <button>Buy Now</button></div></div>
-      </div>
-    </div>
+        @foreach ($items as $item)
+        <div class="item">
+        {!!Form::open(['route' => ['store.addToCart', $item->id, 1]])!!}
+                <div class = "product-card">
+                <a href="{{ route('store.single', $item->slug) }}">
+                  <img src="{{ Storage::url('images/items/'.'tn_'.$item->picture) }}" alt="thumbnail"/>
+                </a>
+                <a href="{{ route('store.single', $item->slug) }}">
+                 <h3> {{$item->title}}</h3> 
+                </a>
+                
+                <br /> 
+                <p class = "price">${{$item->price}}</p>
+                <br /> 
+                {{-- Change this href to a submit, don't forget to close the form --}}
+                {{-- <a href="{{ route('store.addToCart', ['id' => $item->id, 'amount' => 1])}}"><button>Buy Now </button></a> --}}
+
+                {{ Form::button('Buy Now', ['type' => 'submit', 'class' => 'button'] )  }}
+                {!! Form::close() !!}
+                
+              </div>
+              
+            </div>
+            @endforeach
+          {{-- TEST PLACEHOLDER BELOW IF THEREZ NO IMAGES --}}
+         {{--  <div class="item">
+            <div class = "product-card">
+              <img src="http://placehold.it/200x200" alt="thumbnail"><h3>[product name]</h3><br /> 
+              <p class = "price">$[price]]</p><br /> 
+              <button>Buy Now</button>
+            </div>
+          </div> --}}
+      </div> {{-- grid --}}
+    </div> {{-- col-md --}}
 
   </div>
 

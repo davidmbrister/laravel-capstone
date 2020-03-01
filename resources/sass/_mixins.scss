@@ -23,6 +23,7 @@
   }
 }
 @mixin cardgrid($qty, $margin, $marginBottom: $margin) {
+  // Add variables -- $tallest and $cardsInRow ??
   width: ((100% - (($qty - 1) * $margin))/$qty);
   &:nth-child(n) { // all of 'em 
     margin-right: $margin;
@@ -32,7 +33,9 @@
     margin-right: 0;
     margin-bottom: 0;
   }
-  // of course with last-child you could throw in some code to change the arrangement if trailing items don't take up a full row -- to change the spacing
+  // TODO: to complete this pattern for future use:
+  // With last-child you could throw in some code to change the arrangement if trailing items don't take up a full row -- to change the spacing
+  // Add a check at the end of each rown in the cardgrid mixin. The mixin must keep track of the tallest card as it processes them, with a variable called tallest?
 }
 
 @mixin break($args...) {

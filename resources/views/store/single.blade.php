@@ -23,7 +23,17 @@ Public Store
           <div class="card card-body bg-light">
 
             <dl class="dl-horizontal">
-              <div class="item"><div class = "product-card"><img src="{{ Storage::url('images/items/'.'lrg_'.$item->picture) }}" alt="thumbnail"/> <h3><a href="{{ route('store.single', $item->slug) }}">{{$item->title}}</a></h3><br /> <p class = "price">${{$item->price}}</p><br /> <button>Buy Now</button></div></div>
+              <div class="item">
+                <div class = "product-card"><img src="{{ Storage::url('images/items/'.'lrg_'.$item->picture) }}" alt="thumbnail"/>
+                 <a href="{{ route('store.single', $item->slug) }}">
+                  <h3>{{$item->title}}</h3>
+                </a>
+                 <br /> 
+                 <p class = "price">${{$item->price}}</p>
+                 <br /> 
+                 <button>Buy Now</button>
+                </div>
+              </div>
               <p><a href="{{ url('store/'.$item->slug) }}"> {{url('store/'.$item->slug)}}</a></p>
             </dl>
 

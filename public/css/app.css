@@ -468,6 +468,7 @@ h6 {
 }
 
 /* 
+Extensible button code
 %btn {
 	display: inline-block;
 	padding: 6px 12px;
@@ -532,7 +533,6 @@ h6 {
 .product-card {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   max-width: 300px;
-  margin: auto;
   text-align: center;
   font-family: arial;
 }
@@ -547,19 +547,19 @@ h6 {
   font-size: 22px;
 }
 
-.product-card button {
+.product-card .button {
   border: none;
   outline: 0;
   padding: 12px;
   color: white;
-  background-color: #000;
+  background-color: black;
   text-align: center;
   cursor: pointer;
   width: 100%;
   font-size: 1.25rem;
 }
 
-.product-card button:hover {
+.product-card .button:hover {
   opacity: 0.7;
 }
 

@@ -39,7 +39,10 @@ Extensible button code
 	@include clearfix;
 	.item {
 		float: left; // maybe this should go in the cardgrid class
-		@include cardgrid(4, 4%);
+    @include cardgrid(4, 4%); 
+    // TODO:
+    // to make this pattern really useful, it has to resize the height of the row to match the tallest product card child
+    // Therefore, there has to be a check at the end of each rown in the cardgrid mixin. The mixin must keep track of the tallest card as it processes them, with a variable called tallest?
   }
   
 	.product-card { // title, price, add to cart
@@ -54,7 +57,6 @@ Extensible button code
   
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   max-width: 300px;
-  margin: auto;
   text-align: center;
   font-family: arial;
   
@@ -68,12 +70,12 @@ Extensible button code
     font-size: 22px;
   }
 
-  button {
+  .button {
     border: none;
     outline: 0;
     padding: 12px;
-    color: white;
-    background-color: #000;
+    color: rgb(255, 255, 255);
+    background-color: rgb(0, 0, 0);
     text-align: center;
     cursor: pointer;
     width: 100%;
