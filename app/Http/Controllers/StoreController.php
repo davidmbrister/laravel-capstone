@@ -46,6 +46,19 @@ class StoreController extends Controller
         
         return view('store.index')->withItems($items)->withCategories($categories);
       }
+
+      public function cartIndex()
+      {
+        list($ipAddress, $clientID) = $this->checkForIpAndId();
+
+        $records = DB::table('shopping_cart')
+            ->join('items', 'shopping_cart.item_id', '=', 'items.id')            
+            ->select('items.title', 'items.price', 'shopping_cart.quantity', 'shopping_cart.item_id')
+            ->get();
+            print($records);
+        $items = Item::all()->sortBy('id');
+        return view('store.shopping_cart')->withRecords($records)->withItems($items);
+      }
     // An addToCart function that accepts an array of session data 
     // -- the private function addToCart will use the variables obtained from checkForIpandID();
       public function addToCart($id, $amount)
@@ -56,6 +69,7 @@ class StoreController extends Controller
         */
         // load item by the id
         $itemAdded = Item::select()->where('id', $id)->get(); 
+       
         // get the ip address and session ID 
         list($ipAddress, $clientID) = $this->checkForIpAndId();
        
@@ -76,26 +90,59 @@ class StoreController extends Controller
             ]
             );
         }
+        // load the items that need to be diplayed on shopping cart page by id in shopping_cart table
+        //$records = DB::table('shopping_cart')->get(); 
+        //send in the whole record, including the quantity field
+      /*   $records = DB::table('shopping_cart')->pluck('item_id','quantity');
+        $records->price = $records->quanity * Item::select()->where('id', $records->item_id);
+        print($records); */
+
+        // join the item and shopping cart tables
+        $records = DB::table('shopping_cart')
+            ->join('items', 'shopping_cart.item_id', '=', 'items.id')            
+            ->select('items.title', 'items.price', 'shopping_cart.quantity', 'shopping_cart.item_id')
+            ->get();
+            print($records);
 
         Session::flash('success', 'The item was succesfully added to your order!');
 
+        $items = Item::all()->sortBy('id');
+
         // redirect to shoppingcart page in shop.shopping_cart
         // with all the data from that user's current order from their shopping_cart table 
-        return view('store.shopping_cart');
+        return view('store.shopping_cart')->withRecords($records)->withItems($items);
         //return view('store.shopping_cart')->withRecords($records);
           
       }
+    public function updateCart(Request $request, $id)
+    {
+      // take the given id
+
+      Session::flash('helllllllllooooooooooooooo');
+      
+      
+      return redirect()->action('StoreController@cartIndex');
+    }
+    public function deleteItemFromCart($id)
+    {
+      // Delete item from shoppingCart table by id
+      DB::table('shopping_cart')->where('item_id', '=', $id)->delete();
+      // redirect to shoppingcart page
+      return redirect()->action('StoreController@cartIndex');
+    }
 
     // Add a check session function since it will be used often
     private function checkForIpAndId() 
+    
     {
+      //session()->flush();
       if (session()->has('ipAddress') && session()->has('clientID') )
       {
         print("firstIFstatement\n");
         $ipAddress = session('ipAddress');
         $clientID = session('clientID');
 
-      } else if (session()->has('ipAddress'))
+      } else if (session()->has('ipAddress')) // the middle two if statements are not necessary...
       {
         print("secondIFstatement\n");
         // set the session in the session and copy into var to return
@@ -117,6 +164,9 @@ class StoreController extends Controller
         // set both 
         $clientID = session()->getID();
         $ipAddress = request()->ip();
+
+        //clear shopping_cart table of entries from previous sessions
+        DB::table('shopping_cart')->delete();
 
         session(['clientID' => $clientID]);
         session(['ipAddress' => $ipAddress]);

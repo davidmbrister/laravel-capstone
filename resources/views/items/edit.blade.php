@@ -22,7 +22,6 @@ Laravel Project
 
 @section('css')
 {!! Html::style('/css/parsley.css') !!}
-
 @endsection
 
 @section('content')
@@ -47,19 +46,19 @@ Laravel Project
 						@endforeach
 					</select>
 
-			   {{ Form::label('description', 'Description:', ['class' => 'form-spacing-top']) }}
-			    {{ Form::textarea('description', null, ['class'=>'form-control']) }}
+        {{ Form::label('description', 'Description:', ['class' => 'form-spacing-top']) }}
+        {{ Form::textarea('description', null, ['class'=>'form-control']) }}
 
 				{{ Form::label('price', 'Price:', ['class' => 'form-spacing-top']) }}
-			    {{ Form::text('price', null, ['class'=>'form-control', 'style'=>'', 
+        {{ Form::text('price', null, ['class'=>'form-control', 'style'=>'', 
 			                                  'data-parsley-required'=>'']) }}
 
 				{{ Form::label('quantity', 'Quantity:', ['class' => 'form-spacing-top']) }}
-			    {{ Form::text('quantity', null, ['class'=>'form-control', 'style'=>'', 
+        {{ Form::text('quantity', null, ['class'=>'form-control', 'style'=>'', 
 											  'data-parsley-required'=>'']) }}
 											  
 				{{ Form::label('sku', 'SKU:', ['class' => 'form-spacing-top']) }}
-			    {{ Form::text('sku', null, ['class'=>'form-control', 'style'=>'', 
+        {{ Form::text('sku', null, ['class'=>'form-control', 'style'=>'', 
                         'data-parsley-required'=>'']) }}
 
         {{ Form::label('slug', 'Slug:', ['class'=>'form-spacing-top']) }}

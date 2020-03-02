@@ -12,24 +12,26 @@
     {!! Html::style('/css/app.css') !!} 
     <!-- Supplemental CSS -->
     @yield('css')
-
-  </head>
-
-  <body>
-
-      @include('partials._navigation')
     
-      <div class="container form-spacing-top"> 
-        {{-- {{Auth::check()?"Logged in": "Logged out"}} --}}
-          @include('partials._messages')
-          @yield('content')
-          
-          @include('partials._footer') 
-          
-      </div>  
-
-      @include('partials._javascript')
-      @yield('scripts')
+  </head>
+  
+  <body>
+    
+    @include('partials._navigation')
+    
+    <div class="container form-spacing-top"> 
+      {{-- {{Auth::check()?"Logged in": "Logged out"}} --}}
+      @include('partials._messages')
+      @yield('content')
+      
+      @include('partials._footer') 
+      
+    </div>  
+    
+    
+    @include('partials._javascript')
+    @yield('scripts')
+      
   </body>
 
 </html>
