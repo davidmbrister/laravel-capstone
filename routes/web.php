@@ -26,7 +26,7 @@ Route::get('store/{category}',['as' => 'store.category', 'uses' => 'StoreControl
 
 Route::get('shopping_cart',['as' => 'store.cartIndex', 'uses' => 'StoreController@cartIndex']);
 
-Route::patch('shopping_cart/{id}',['as' => 'shopping_cart.update_cart', 'uses' => 'StoreController@updateCart']);
+Route::put('shopping_cart',['as' => 'shopping_cart.update_cart', 'uses' => 'StoreController@updateCart']);
 
 Route::post('store/{id}/shopping_cart/{amount}',['as' => 'store.addToCart', 'uses' => 'StoreController@addToCart']);
 

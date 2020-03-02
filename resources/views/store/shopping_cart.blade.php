@@ -9,12 +9,16 @@ Shopping Cart
 @endsection
 
 @section('scripts')
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script>
+  window.ParsleyConfig = {
+      errorsWrapper: '<div></div>',
+      errorTemplate: '<div class="alert alert-danger parsley" role="alert"></div>',
+      errorClass: 'has-error',
+      successClass: 'has-success'
+  };
+</script>
 {!! Html::script('/bower_components/parsleyjs/dist/parsley.min.js') !!}
 @endsection
-
 
 @section('css')
 {!! Html::style('/css/parsley.css') !!}
@@ -33,7 +37,7 @@ Shopping Cart
 			<table class="table">
 				<thead>
 					<th>Name</th>
-          <th>Quantity</th>
+          <th>Adjust Quantity</th>
           <th>Price</th>
 					<th>Actions</th>
 					<th></th>
@@ -44,19 +48,26 @@ Shopping Cart
 
 					@foreach ($records as $record)
 						<tr>
-             
-              {!! Form::open(['route' => ['shopping_cart.update_cart', $record->item_id], 'method' => 'PATCH', 'data-parsley-validate' => ''])!!}
+              {{-- {{ dd(request()) }} --}}
+              {{-- {!! Form::model($record, ['route' => ['shopping_cart.update_cart'], 'method' => 'PUT', 'data-parsley-validate' => '', 'data-parsley-pattern' => '/[1-9]/'])!!} --}}
+              {!! Form::open(['route' => 'shopping_cart.update_cart', 'data-parsley-validate' => '', 'method' => 'PUT'])!!}
+              {{ Form::hidden('cart_id', $record->item_id)}}
               <th>{{ $record->title }}</th>
               
-              <td>{{ Form::text('quantity', null, ['class'=>'form-control', 'style'=>'', 
-                'data-parsley-required'=>'']) }}
+              <td>
+                {{ Form::text('quantity', $record->quantity, ['class' => 'form-control', 
+                'data-parsley-required' => '',   
+                'style'=>''])}} 
+              {{-- <input type="text" class="form-control" name="quantity" data-parsley-required="true" value=""> --}}
+              {{-- {{ dd(request()) }} --}}
+                 
               </td>
               <td>${{ $record->price * $record->quantity }}</td>
                  
               <td class="btn-group"> 
                 {{-- The update button will need to use the patch method and go the update_cart route --}} 
-                 
-                {{  Form::button('Update', ['type' => 'submit', 'class'=>'btn btn-block btn-outline-primary min-button-width max-button-height no-b-radius', 'style'=>'']) }}
+                {{ Form::submit('Update', ['class'=>'btn btn-block btn-outline-primary min-button-width max-button-height no-b-radius', 'style'=>'']) }}
+               {{--  {{  Form::button('Update', ['type' => 'submit', 'class'=>'btn btn-block btn-outline-primary min-button-width max-button-height no-b-radius', 'style'=>'']) }} --}}
                 {!! Form::close() !!}	
 
                 {!! Form::open(['route' => ['shopping_cart.remove_item', $record->item_id], 'method'=>'DELETE']) !!}

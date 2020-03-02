@@ -29,7 +29,7 @@
       </div>  
 
       @include('partials._javascript')
-      @yield('scripts')
+    @yield('scripts')
   </body>
 
 </html>

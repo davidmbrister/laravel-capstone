@@ -63,13 +63,6 @@ class StoreController extends Controller
     // -- the private function addToCart will use the variables obtained from checkForIpandID();
       public function addToCart($id, $amount)
       {
-        /*function will be called in shop/index, shop/single, and shop/shopping_cart blades
-        function call will be in link like so:
-        <a href="{{ route('store.addToCart', $item->id, $amount = 1, ) }}" class="">{{ $category->name }}</a>
-        */
-        // load item by the id
-        $itemAdded = Item::select()->where('id', $id)->get(); 
-       
         // get the ip address and session ID 
         list($ipAddress, $clientID) = $this->checkForIpAndId();
        
@@ -90,12 +83,6 @@ class StoreController extends Controller
             ]
             );
         }
-        // load the items that need to be diplayed on shopping cart page by id in shopping_cart table
-        //$records = DB::table('shopping_cart')->get(); 
-        //send in the whole record, including the quantity field
-      /*   $records = DB::table('shopping_cart')->pluck('item_id','quantity');
-        $records->price = $records->quanity * Item::select()->where('id', $records->item_id);
-        print($records); */
 
         // join the item and shopping cart tables
         $records = DB::table('shopping_cart')
@@ -114,20 +101,41 @@ class StoreController extends Controller
         //return view('store.shopping_cart')->withRecords($records);
           
       }
-    public function updateCart(Request $request, $id)
+    public function updateCart(Request $request)
     {
       // take the given id
+       /* $this->validate($request, ['quantity'=>'required|min:1']);  */
+      print('HIIIIIIIIIIIII');
+     
+      if ($request->quantity == null)
+      {
+        Session::flash('message','The quantity field requires a valid quantity');
+        
+      } else{
+        Session::flash('success', 'non-null value registered');
+      }
 
-      Session::flash('helllllllllooooooooooooooo');
+      /*The quantity is updated in the associated controller method (do not exceed item quantity in the database),
+       and you are redirected back to the shopping cart*/
+      print($request->cart_id);
+      list($ipAddress, $clientID) = $this->checkForIpAndId();
+
+        $records = DB::table('shopping_cart')
+            ->join('items', 'shopping_cart.item_id', '=', 'items.id')            
+            ->select('items.title', 'items.price', 'shopping_cart.quantity', 'shopping_cart.item_id')
+            ->get();
+            print($records);
+        $items = Item::all()->sortBy('id');
+        print('HI After update cart logic');
+        return view('store.shopping_cart')->withRecords($records)->withItems($items);
       
-      
-      return redirect()->action('StoreController@cartIndex');
     }
     public function deleteItemFromCart($id)
     {
       // Delete item from shoppingCart table by id
       DB::table('shopping_cart')->where('item_id', '=', $id)->delete();
       // redirect to shoppingcart page
+
       return redirect()->action('StoreController@cartIndex');
     }
 
