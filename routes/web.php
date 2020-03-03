@@ -12,8 +12,13 @@
 */
 Auth::routes();
 
+// ADMIN ROUTES
+
 Route::resource('items', 'ItemController');
+
 Route::resource('categories', 'CategoryController');
+
+// STORE ROUTES
 
 Route::get('/', 'StoreController@getIndex');
 
@@ -22,7 +27,8 @@ Route::get('store', 'StoreController@getIndex')->name('store.index');
 Route::get('store/product/{slug}',['as' => 'store.single', 'uses' => 'StoreController@getSingle'])->where('slug', '[\w\d\-\_]+');
 // create a named route store.category; when route is followed it calls itemsByCategory  
 Route::get('store/{category}',['as' => 'store.category', 'uses' => 'StoreController@itemsByCategory']);
-// create a named route store.updateCart; when route is followed it calls addToCart
+
+// SHOPPING CART ROUTES
 
 Route::get('shopping_cart',['as' => 'store.cartIndex', 'uses' => 'StoreController@cartIndex']);
 
@@ -31,14 +37,6 @@ Route::put('shopping_cart',['as' => 'shopping_cart.update_cart', 'uses' => 'Stor
 Route::post('store/{id}/shopping_cart/{amount}',['as' => 'store.addToCart', 'uses' => 'StoreController@addToCart']);
 
 Route::delete('store/shopping_cart/{id}',['as' => 'shopping_cart.remove_item', 'uses' => 'StoreController@deleteItemFromCart']);
-
-/* Route::get('events/{event}/remind/{user}', [
-  'as' => 'remindHelper', 'uses' => 'EventsController@remindHelper']); */
-
-
-/* Route::get('/', function () {
-    return view('welcome');
-}); */
 
 // This will allow the entering of '/logout' to the URL to work via GET
 // Route::get('/logout', 'Auth\LoginController@logout');

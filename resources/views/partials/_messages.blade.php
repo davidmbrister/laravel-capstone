@@ -15,3 +15,9 @@
 		</ul> 
 	</div>
 @endif
+
+@if (Session::has('failure'))
+  <div class="alert alert-danger" role="alert">
+		<strong>Error:</strong> {{ Session::get('failure') }}
+	</div>
+@endif
