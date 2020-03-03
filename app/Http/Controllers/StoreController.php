@@ -56,8 +56,16 @@ class StoreController extends Controller
             ->select('items.title', 'items.price', 'shopping_cart.quantity', 'shopping_cart.item_id')
             ->get();
             print($records);
-        $items = Item::all()->sortBy('id');
-        return view('store.shopping_cart')->withRecords($records)->withItems($items);
+
+        $total = 0;
+        foreach ($records as $record) {
+         $total += $record->price * $record->quantity;
+        }
+        /* dd($total); */
+
+        // redirect to shoppingcart page in shop.shopping_cart
+        // with all the data from that user's current order from their shopping_cart table 
+        return view('store.shopping_cart')->withRecords($records)->with('total', $total); 
       }
     // An addToCart function that accepts an array of session data 
     // -- the private function addToCart will use the variables obtained from checkForIpandID();
@@ -93,11 +101,15 @@ class StoreController extends Controller
 
         Session::flash('success', 'The item was succesfully added to your order!');
 
-        $items = Item::all()->sortBy('id');
+        $total = 0;
+        foreach ($records as $record) {
+         $total += $record->price * $record->quantity;
+        }
+        /* dd($total); */
 
         // redirect to shoppingcart page in shop.shopping_cart
         // with all the data from that user's current order from their shopping_cart table 
-        return view('store.shopping_cart')->withRecords($records)->withItems($items);
+        return view('store.shopping_cart')->withRecords($records)->with('total', $total); 
         //return view('store.shopping_cart')->withRecords($records);
           
       }
@@ -120,14 +132,39 @@ class StoreController extends Controller
       print($request->cart_id);
       list($ipAddress, $clientID) = $this->checkForIpAndId();
 
+      // FINAL UPDATE CART PIECE
+        //check that request->quantity is not greater than table('items')
+        $inventory = DB::table('items')->where('id', $request->cart_id)->first();
+        if($request->quantity > $inventory->quantity)
+        {
+          // do not run database query
+          
+          /* dd($inventory); */
+          Session::flash('success', 'Requested amount excedes current inventory.');
+          return redirect()->action('StoreController@cartIndex');
+        } 
+        else {
+          
+          DB::table('items')
+                ->where('id', $request->cart_id)
+                ->decrement('quantity', $request->quantity);
+        }
+
         $records = DB::table('shopping_cart')
             ->join('items', 'shopping_cart.item_id', '=', 'items.id')            
             ->select('items.title', 'items.price', 'shopping_cart.quantity', 'shopping_cart.item_id')
             ->get();
             print($records);
-        $items = Item::all()->sortBy('id');
-        print('HI After update cart logic');
-        return view('store.shopping_cart')->withRecords($records)->withItems($items);
+       
+            $total = 0;
+            foreach ($records as $record) {
+             $total += $record->price * $record->quantity;
+            }
+            /* dd($total); */
+    
+            // redirect to shoppingcart page in shop.shopping_cart
+            // with all the data from that user's current order from their shopping_cart table 
+            return view('store.shopping_cart')->withRecords($records)->with('total', $total); 
       
     }
     public function deleteItemFromCart($id)
@@ -138,6 +175,24 @@ class StoreController extends Controller
 
       return redirect()->action('StoreController@cartIndex');
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // Add a check session function since it will be used often
     private function checkForIpAndId() 

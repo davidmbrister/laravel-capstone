@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -12,26 +12,24 @@
     {!! Html::style('/css/app.css') !!} 
     <!-- Supplemental CSS -->
     @yield('css')
-    
+
   </head>
-  
+
   <body>
+
+      @include('partials._navigation')
     
-    @include('partials._navigation')
+      <div class="container form-spacing-top"> 
     
-    <div class="container form-spacing-top"> 
-      {{-- {{Auth::check()?"Logged in": "Logged out"}} --}}
-      @include('partials._messages')
-      @yield('content')
-      
-      @include('partials._footer') 
-      
-    </div>  
-    
-    
-    @include('partials._javascript')
+          @include('partials._messages')
+          @yield('content')
+          
+          @include('partials._footer') 
+          
+      </div>  
+
+      @include('partials._javascript')
     @yield('scripts')
-      
   </body>
 
 </html>
