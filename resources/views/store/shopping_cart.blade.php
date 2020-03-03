@@ -60,7 +60,7 @@ Shopping Cart
       
       {{-- ITEM FOUR - THE BUTTONS FOR BOTH FORMS --}}
       <td>      
-        {{ Form::submit('Save Changes', ['class'=>'btn btn-block btn-outline-primary min-button-width max-button-height no-b-radius', 'style'=>'margin-top:0px']) }}  
+        {{ Form::submit('Update', ['class'=>'btn btn-block btn-outline-primary min-button-width max-button-height no-b-radius', 'style'=>'margin-top:0px']) }}  
         {!! Form::close() !!}   
       </td>       
 

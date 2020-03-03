@@ -115,9 +115,6 @@ class StoreController extends Controller
       }
     public function updateCart(Request $request)
     {
-      // take the given id
-       /* $this->validate($request, ['quantity'=>'required|min:1']);  */
-      print('HIIIIIIIIIIIII');
      
       if ($request->quantity == null)
       {
@@ -125,7 +122,7 @@ class StoreController extends Controller
         
       } else{
         Session::flash('success', 'non-null value registered');
-      }
+      
 
       /*The quantity is updated in the associated controller method (do not exceed item quantity in the database),
        and you are redirected back to the shopping cart*/
@@ -138,16 +135,14 @@ class StoreController extends Controller
         if($request->quantity > $inventory->quantity)
         {
           // do not run database query
-          
-          /* dd($inventory); */
           Session::flash('success', 'Requested amount excedes current inventory.');
           return redirect()->action('StoreController@cartIndex');
         } 
         else {
-          
-          DB::table('items')
-                ->where('id', $request->cart_id)
-                ->decrement('quantity', $request->quantity);
+
+          DB::table('shopping_cart')
+                ->where('item_id', $inventory->id)
+                ->update(['quantity' => $request->quantity]);
         }
 
         $records = DB::table('shopping_cart')
@@ -165,6 +160,7 @@ class StoreController extends Controller
             // redirect to shoppingcart page in shop.shopping_cart
             // with all the data from that user's current order from their shopping_cart table 
             return view('store.shopping_cart')->withRecords($records)->with('total', $total); 
+          }
       
     }
     public function deleteItemFromCart($id)
