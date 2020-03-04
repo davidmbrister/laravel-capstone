@@ -90,7 +90,18 @@ class StoreController extends Controller
     // Condition to see if the table has a record by this $id param
     if (DB::table('shopping_cart')->where('item_id', $id)->exists()) {
       // increment quantity of existing record for this item type  
-      DB::table('shopping_cart')->where('item_id', $id)->increment('quantity');
+      
+       DB::table('shopping_cart')->where('item_id', $id)->increment('quantity');
+       $newCartQuantity =  DB::table('shopping_cart')->where('item_id', $id)->first();
+
+      //check that request->quantity is not greater than table('items')
+      $inventory = DB::table('items')->where('id', $id)->first();
+      if ($newCartQuantity->quantity > $inventory->quantity) {
+        // do not run database query
+        DB::table('shopping_cart')->where('item_id', $id)->decrement('quantity');
+        Session::flash('failure', 'Requested amount excedes current inventory.');
+        return redirect()->action('StoreController@cartIndex');
+      }
     } else {
       // add new record for item of this type
       DB::table('shopping_cart')->insert(

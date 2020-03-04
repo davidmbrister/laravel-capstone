@@ -76,8 +76,7 @@ Shopping Cart
   </div> {{-- end second row --}}
   
 </table>
-
-<h1>Total: ${{$total}}</h2> 
+<h1>Total: ${{number_format($total, 2, '.', ',')}}</h2> 
 
 
 
