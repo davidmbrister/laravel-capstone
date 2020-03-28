@@ -512,16 +512,19 @@ Extensible button code
 .grid .item {
   float: left;
   width: 22%;
+  overflow: hidden;
 }
 
 .grid .item:nth-child(n) {
   margin-right: 4%;
   margin-bottom: 4%;
+  overflow: hidden;
 }
 
 .grid .item:nth-child(4n) {
   margin-right: 0;
   margin-bottom: 0;
+  overflow: hidden;
 }
 
 .grid .product-card {
@@ -11974,7 +11977,7 @@ a.text-dark:focus {
   }
 }
 
-@media (min-width: 200px) and (max-width: 800px) {
+@media (min-width: 0px) and (max-width: 800px) {
   .categories {
     display: none;
   }
@@ -11983,6 +11986,15 @@ a.text-dark:focus {
 .categories a {
   font-family: Nunito, sans-serif;
   color: #EEE8D6;
+}
+
+@media (min-width: 0px) and (max-width: 1200px) {
+  .product-card .product-title {
+    width: 110px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
 }
 
 /*Regulating rules*/

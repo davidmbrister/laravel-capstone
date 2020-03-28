@@ -25,13 +25,16 @@
 @mixin cardgrid($qty, $margin, $marginBottom: $margin) {
   // Add variables -- $tallest and $cardsInRow ??
   width: ((100% - (($qty - 1) * $margin))/$qty);
+  overflow: hidden;
   &:nth-child(n) { // all of 'em 
     margin-right: $margin;
     margin-bottom: $marginBottom;
+    overflow: hidden;
   }
   &:nth-child(#{$qty}n) { // overwrite the last in each row to have to padding
     margin-right: 0;
     margin-bottom: 0;
+    overflow: hidden;
   }
   // TODO: to complete this pattern for future use:
   // With last-child you could throw in some code to change the arrangement if trailing items don't take up a full row -- to change the spacing

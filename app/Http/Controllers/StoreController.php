@@ -89,8 +89,25 @@ class StoreController extends Controller
 
     // Condition to see if the table has a record by this $id param
     if (DB::table('shopping_cart')->where('item_id', $id)->exists()) {
-      // increment quantity of existing record for this item type  
-      DB::table('shopping_cart')->where('item_id', $id)->increment('quantity');
+      // increment quantity of existing record for this item type   
+      // but not if it excedes the current inventory 
+      $itemToIncrement = DB::table('shopping_cart')->where('item_id', $id)->first();
+      //print("Updated Quantity".$itemToIncrement);
+      //check that request->quantity is not greater than table('items')
+      $inventory = DB::table('items')->where('id','=', $itemToIncrement->item_id)->first();
+      if (($itemToIncrement->quantity+1) > $inventory->quantity) {
+        // do not run database query
+        Session::flash('failure', 'Requested amount excedes current inventory.');
+        return redirect()->action('StoreController@cartIndex');
+      }
+      else
+      {
+        // total will not excede inventory quantity, so incrementing is safe
+        DB::table('shopping_cart')
+          ->where('item_id', $inventory->id)
+          ->increment('quantity');
+      }
+
     } else {
       // add new record for item of this type
       DB::table('shopping_cart')->insert(
@@ -106,8 +123,9 @@ class StoreController extends Controller
       ->select('items.title', 'items.price', 'shopping_cart.quantity', 'shopping_cart.item_id')
       ->get();
     print($records);
-
-    Session::flash('success', 'The item was succesfully added to your order!');
+    
+    session()->now('success', 'The item was succesfully added to your order!');
+    /* Session::flash('success', 'The item was succesfully added to your order!'); */
 
     // generate current cart total
     $total = 0;
@@ -123,8 +141,22 @@ class StoreController extends Controller
   public function updateCart(Request $request)
   {
 
-    if ($request->quantity == null) {
-      Session::flash('message', 'The quantity field requires a valid quantity');
+    if ($request->quantity == null || !(preg_match('/^[0-9]*$/',$request->quantity))) 
+    {
+      $records = DB::table('shopping_cart')
+      ->join('items', 'shopping_cart.item_id', '=', 'items.id')
+      ->select('items.title', 'items.price', 'shopping_cart.quantity', 'shopping_cart.item_id')
+      ->get();
+      print($records);
+      
+      $total = 0;
+      foreach ($records as $record) {
+        $total += $record->price * $record->quantity;
+      }
+
+      session()->now('failure', 'The quantity field requires a valid quantity.');
+/*       Session::flash('failure', 'The quantity field requires a valid quantity'); */
+      return view('store.shopping_cart')->withRecords($records)->with('total', $total);
     } else {
 
       list($ipAddress, $clientID) = $this->checkForIpAndId();
@@ -150,16 +182,32 @@ class StoreController extends Controller
 
       $total = 0;
       foreach ($records as $record) {
-        $total += $record->price * $record->quantity;
+      $total += $record->price * $record->quantity;
       }
-
+      session()->now('success', 'Order successfully updated!');
+      /* Session::flash('success', 'Order successfully updated!'); */
       return view('store.shopping_cart')->withRecords($records)->with('total', $total);
     }
   }
+
   public function deleteItemFromCart($id)
   {
     // Delete item from shoppingCart table by id
     DB::table('shopping_cart')->where('item_id', '=', $id)->delete();
+    // redirect to shoppingcart page
+
+    return redirect()->action('StoreController@cartIndex');
+  }
+
+  public function checkOrder(Request $request)
+  {
+    list($ipAddress, $clientID) = $this->checkForIpAndId();
+    // add the ipaddress and session id to the order_table (that has not been created yet)
+    
+    // also add the user information field info from the request into the table
+
+    // Delete item from shoppingCart table by id
+    session()->now('success', 'Checking order!');
     // redirect to shoppingcart page
 
     return redirect()->action('StoreController@cartIndex');

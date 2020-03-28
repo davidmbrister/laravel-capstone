@@ -36,7 +36,8 @@ Public Store
                   <img src="{{ Storage::url('images/items/'.'tn_'.$item->picture) }}" alt="thumbnail"/>
                 </a>
                 <a href="{{ route('store.single', $item->slug) }}">
-                 <h3> {{$item->title}}</h3> 
+                 <h3 class="product-title"> {{substr($item->title, 0, 14)}}{{strlen($item->title) > 14?"...":""}}</h3> 
+                 {{-- <td>{{substr($item->title, 0, 14)}}{{strlen($item->title) > 14?"...":""}}</td> --}}
                 </a>
                 
                 <br /> 

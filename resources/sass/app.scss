@@ -20,7 +20,7 @@
       font-family: $font-main;
     }
   }
-  @include break(200px, 800px) { // do something else in this break to show category 
+  @include break(0px, 800px) { // do something else in this break to show category 
     display: none; // i need to have another class that shows when this is hidden [like a drawer menu] (because I can't access the bootstrap grid from within this scope) 
   }
 
@@ -29,6 +29,7 @@
     color: $offwhite;
   }
 
+  
   background-image:  
   linear-gradient(#0076A3,rgb(137, 139, 161));
   
@@ -36,9 +37,17 @@
   border-right: 2px solid rgb(42, 138, 177);
 }
 
+.product-card .product-title  {
+  @include break(0px, 1200px) { // do something else in this break to show category 
+    width:110px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+}
 /*Regulating rules*/ // Try to put these somehwere else, for now they square the buttons and add top margin to the body
 .btn-h1-spacing {
-	margin-top: 18px;
+  margin-top: 18px;
 }
 
 .form-spacing-top

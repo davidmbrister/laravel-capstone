@@ -38,6 +38,8 @@ Route::post('store/{id}/shopping_cart/{amount}',['as' => 'store.addToCart', 'use
 
 Route::delete('store/shopping_cart/{id}',['as' => 'shopping_cart.remove_item', 'uses' => 'StoreController@deleteItemFromCart']);
 
+Route::post('store/shopping_cart/check_order',['as' => 'shopping_cart.check_order', 'uses' => 'StoreController@checkOrder']);
+
 // This will allow the entering of '/logout' to the URL to work via GET
 // Route::get('/logout', 'Auth\LoginController@logout');
 
