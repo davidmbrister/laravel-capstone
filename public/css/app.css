@@ -538,6 +538,7 @@ Extensible button code
   max-width: 300px;
   text-align: center;
   font-family: arial;
+  border: 1px solid #d1c0a6;
 }
 
 .product-card img {

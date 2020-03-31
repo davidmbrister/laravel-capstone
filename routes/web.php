@@ -40,6 +40,10 @@ Route::delete('store/shopping_cart/{id}',['as' => 'shopping_cart.remove_item', '
 
 Route::post('store/shopping_cart/check_order',['as' => 'shopping_cart.check_order', 'uses' => 'StoreController@checkOrder']);
 
+Route::get('store/shopping_cart/thank_you/{order_id}',['as' => 'shopping_cart.thank_you', 'uses' => 'StoreController@ThankYouPage']);
+
+Route::get('orders',['as' => 'store.orders', 'uses' => 'StoreController@ordersIndex'])->middleware('auth');;
+Route::get('orders/single/{order_id}',['as' => 'store.singleOrder', 'uses' => 'StoreController@orderSingle'])->middleware('auth');;
 // This will allow the entering of '/logout' to the URL to work via GET
 // Route::get('/logout', 'Auth\LoginController@logout');
 

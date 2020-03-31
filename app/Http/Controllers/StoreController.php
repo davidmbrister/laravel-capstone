@@ -12,11 +12,12 @@ class StoreController extends Controller
 {
   /*
 |--------------------------------------------------------------------------
-| Public Store Views 
+| Public Store Views and Functions
 |--------------------------------------------------------------------------
-|
-| Here are general views for the store 'floor', including views to see
-| all products, one product, or products of a single category.
+| Purpose : Here are general views for the store 'floor', including views to see
+| all products, a single product, or products of a single category.
+| 
+| Functions : getIndex(), getSingle(), itemsByCategory()
 |
 */
   public function getIndex()
@@ -55,27 +56,36 @@ class StoreController extends Controller
   }
   /*
 |--------------------------------------------------------------------------
-| Shopping Cart Views 
+| Shopping Cart Views and Functions
 |--------------------------------------------------------------------------
 |
-| Here are general views and functions for the customer's current shopping cart, 
-| including the index cart page, update store and update functions, 
-| (CRUD functionality)
+| Purpose : Here are views and functions for the customer's 
+| current shopping cart, including CRUD functionality and handling the purchase transaction.
+| 
+| Functions : orderIndex(), orderSingle(), cartIndex(), addToCart(), updateCart(), deleteItemFromCart(), checkOrder(), ThankYouPage()
+| 
 */
+
+  public function ordersIndex()
+  {
+     // receipt lines
+     $orders = DB::table('order_info')
+     ->get();
+     return view('orders.index')->withRecords($orders);
+  }
+  public function orderSingle($order_id)
+  {
+     // receipt lines
+     list($records, $total, $customerInfo) = $this->generateReceiptLines($order_id);
+
+     return view('orders.orderSingle')->withRecords($records)->with('total', $total)->with('customer', $customerInfo);
+  }
   public function cartIndex()
   {
     list($ipAddress, $clientID) = $this->checkForIpAndId();
+    // get the item lines
+    list($records, $total) = $this->generateCartLines();
 
-    $records = DB::table('shopping_cart')
-      ->join('items', 'shopping_cart.item_id', '=', 'items.id')
-      ->select('items.title', 'items.price', 'shopping_cart.quantity', 'shopping_cart.item_id')
-      ->get();
-    print($records);
-
-    $total = 0;
-    foreach ($records as $record) {
-      $total += $record->price * $record->quantity;
-    }
     // redirect to shoppingcart page in shop.shopping_cart
     // with all the data from that user's current order from their shopping_cart table 
     return view('store.shopping_cart')->withRecords($records)->with('total', $total);
@@ -88,7 +98,8 @@ class StoreController extends Controller
     list($ipAddress, $clientID) = $this->checkForIpAndId();
 
     // Condition to see if the table has a record by this $id param
-    if (DB::table('shopping_cart')->where('item_id', $id)->exists()) {
+    if (DB::table('shopping_cart')->where('item_id', $id)->exists()) 
+    {
       // increment quantity of existing record for this item type   
       // but not if it excedes the current inventory 
       $itemToIncrement = DB::table('shopping_cart')->where('item_id', $id)->first();
@@ -109,6 +120,12 @@ class StoreController extends Controller
       }
 
     } else {
+      $inventory = DB::table('items')->where('id','=', $id)->first();
+      if ($inventory->quantity <= 0 ) {
+        // do not run database query
+        Session::flash('failure', 'Requested amount excedes current inventory.');
+        return redirect()->action('StoreController@cartIndex');
+      }
       // add new record for item of this type
       DB::table('shopping_cart')->insert(
         [
@@ -122,7 +139,6 @@ class StoreController extends Controller
       ->join('items', 'shopping_cart.item_id', '=', 'items.id')
       ->select('items.title', 'items.price', 'shopping_cart.quantity', 'shopping_cart.item_id')
       ->get();
-    print($records);
     
     session()->now('success', 'The item was succesfully added to your order!');
     /* Session::flash('success', 'The item was succesfully added to your order!'); */
@@ -147,7 +163,6 @@ class StoreController extends Controller
       ->join('items', 'shopping_cart.item_id', '=', 'items.id')
       ->select('items.title', 'items.price', 'shopping_cart.quantity', 'shopping_cart.item_id')
       ->get();
-      print($records);
       
       $total = 0;
       foreach ($records as $record) {
@@ -178,7 +193,6 @@ class StoreController extends Controller
         ->join('items', 'shopping_cart.item_id', '=', 'items.id')
         ->select('items.title', 'items.price', 'shopping_cart.quantity', 'shopping_cart.item_id')
         ->get();
-      print($records);
 
       $total = 0;
       foreach ($records as $record) {
@@ -201,52 +215,148 @@ class StoreController extends Controller
 
   public function checkOrder(Request $request)
   {
+    // ensure session has id and IP 
     list($ipAddress, $clientID) = $this->checkForIpAndId();
-    // add the ipaddress and session id to the order_table (that has not been created yet)
-    
-    // also add the user information field info from the request into the table
+    // validate request fields
+    $this->validate($request, ['fName'=>'required|string|max:50',
+                                   'lName'=>'required|string|max:50',
+                                   'phone'=>'required|string|max:50',
+                                   'email'=>'email'
+                                   ]); 
+    // get order id for insertion into items_sold
+    $order_id = DB::table('order_info')->where('session_id', $clientID)->where('ip_address', $ipAddress)->where('fName',$request->fName)->where('lName', $request->lName)->value('order_id');
+    //get shopping cart records
+    $cartRecords = DB::table('shopping_cart')->get();
+    // if the cart is empty, get out of this function. Redirect to store home. 
+    if($cartRecords->isEmpty())
+    {
+      print("hiiiiii");
+      Session::flash('failure', 'There are no items in your cart. Order not completed.');
+      return redirect()->action('StoreController@getIndex');
 
-    // Delete item from shoppingCart table by id
-    session()->now('success', 'Checking order!');
+    }                              
+    // add the order info to the order_info table, without the details which are detailed in the shoppingCart table?
+     DB::table('order_info')->insert(
+      [
+        'fName' => $request->fName, 'lName' => $request->lName,
+        'phone' => $request->phone, 'email' => $request->email,
+        'session_id' => $clientID, 'ip_address' => $ipAddress
+      ]
+    );
+
+  
+    foreach($cartRecords as $record) //DB::table('items_sold')->insert
+    {
+      //for each record in the shopping_cart table, move (not copy) into items_sold table with the order ID as the id
+      $price = DB::table('items')->where('id', $record->item_id)->value('price');
+      DB::table('items_sold')->insert(
+        [
+          'item_id' => $record->item_id, 'order_id' => $order_id, 'price' => $price,
+          'quantity' => $record->quantity
+        ]
+      );
+
+      //for each item line in the cart, remove the corresponding amount from the items table
+      
+     Item::find($record->item_id)->decrement('quantity', $record->quantity);  // Should probably redundantly check that this doesn't exceded inventory 
+    }
+    //don't clear the session yet, thank-you page needs it
+    //$request->session()->flush();
+
+    //clear shopping_cart table of entries from previous sessions
+    DB::table('shopping_cart')->delete();
+
+    session()->now('success', 'Order submitted!');
     // redirect to shoppingcart page
+    return redirect()->route('shopping_cart.thank_you', $order_id);
+  
+  }
 
-    return redirect()->action('StoreController@cartIndex');
+  public function ThankYouPage($order_id)
+  {
+    // check the current session id and IP to see if it matches what's in the orders tableand shopping cart table 
+    if (session()->has('clientID') && session()->has('ipAddress')) 
+    {
+       // get the line items
+      list($records, $total, $customerInfo) = $this->generateReceiptLines($order_id);
+
+    }
+    else // order voided, redirect to store index
+    {
+      session()->now('failure', 'Session timed out. Order not completed.');
+      // there is no way the shopping cart could have data in its table at this point
+      // therefore, the shopper's 'state' is fresh and clear of past activity on the site
+      return redirect()->action('StoreController@cartIndex'); //go back to store
+    }
+
+    return view('store.thank_you')->withRecords($records)->with('total', $total)->with('customer', $customerInfo);
   }
   /*
 |--------------------------------------------------------------------------
 | Private Functions
 |--------------------------------------------------------------------------
 |
-| Here are any functions that are accesible to this controller only.
+| Purpose : Convenience functions.
+| Note : The two generateLines functions draw similar info from different tables depending on the point of the transaction 
+| 
 |
-| TODO: Maybe add a getRecords function to get the query code out of the controller
-| functions.
+| Functions : generateReceiptLines(), generateCartLines(), checkForIpAndId()
 | 
 */
+  private function generateReceiptLines($order_id)
+  {
+    // receipt lines
+    $records = DB::table('items_sold')
+      ->where('order_id', $order_id)
+      ->join('items', 'items_sold.item_id', '=', 'items.id')
+      ->select('items.title', 'items.price', 'items_sold.quantity', 'items_sold.item_id')
+      ->get();
+    // get subtotal
+    $total = 0;
+    foreach ($records as $record) {
+    $total += $record->price * $record->quantity;
+    }
+    // get customer info based on order_id
+    $customerInfo = DB::table('order_info')->where('order_id', $order_id)->first();
+    //return list 
+    return [$records, $total, $customerInfo];
+  }
+  private function generateCartLines()
+  {
+    $records = DB::table('shopping_cart')
+      ->join('items', 'shopping_cart.item_id', '=', 'items.id')
+      ->select('items.title', 'items.price', 'shopping_cart.quantity', 'shopping_cart.item_id')
+      ->get();
+
+    $total = 0;
+    foreach ($records as $record) {
+      $total += $record->price * $record->quantity;
+    }
+    return [$records, $total];
+  }
   // Add a check session function since it will be used often
   private function checkForIpAndId()
-
   {
     //session()->flush();
     if (session()->has('ipAddress') && session()->has('clientID')) {
-      print("firstIFstatement\n");
+      //print("firstIFstatement\n");
       $ipAddress = session('ipAddress');
       $clientID = session('clientID');
     } else if (session()->has('ipAddress')) // the middle two if statements are not necessary...
     {
-      print("secondIFstatement\n");
+      //print("secondIFstatement\n");
       // set the session in the session and copy into var to return
       $ipAddress = session('ipAddress');
       $clientID = session()->getID();
       session(['clientID' => $clientID]);
     } else if (session()->has('clientID')) {
-      print("thidIFstatement\n");
+      //print("thidIFstatement\n");
       // set the ipAddress in the session and copy into var to return
       $clientID = session('clientID');
       $ipAddress = request()->ip();
       session(['ipAddress' => $ipAddress]);
     } else {
-      print("lastIFstatement\n");
+      //print("lastIFstatement\n");
       // set both 
       $clientID = session()->getID();
       $ipAddress = request()->ip();
@@ -257,7 +367,7 @@ class StoreController extends Controller
       session(['clientID' => $clientID]);
       session(['ipAddress' => $ipAddress]);
     }
-    print("IF block exited\n");
+    //print("IF block exited\n");
     return [$ipAddress, $clientID];
   }
 }

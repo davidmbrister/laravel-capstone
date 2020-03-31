@@ -17,6 +17,10 @@
           <li class="nav-item {{ Request::is('categories') ? "active" : ""}}">
             <a class="nav-link " href="/categories">Categories</a>
           </li>
+          <li class="nav-item {{ Request::is('orders') ? "active" : ""}}">
+            <a class="nav-link " href="/orders">Orders</a>
+          </li>
+
         </ul>
 
         <li class="nav-item dropdown list-unstyled mr-4">

@@ -22,7 +22,8 @@
       <div class="container form-spacing-top"> 
     
           @include('partials._messages')
-          @yield('content')
+          
+            @yield('content')
           
           @include('partials._footer') 
           

@@ -20,6 +20,7 @@ class CreateOrderInfoTable extends Migration
             $table->string('lName', 255);
 
             $table->string('phone', 255);
+            $table->string('email', 255);
 
             $table->string('session_id', 255);
             $table->string('ip_address', 50);

@@ -57,7 +57,7 @@ Shopping Cart
         </td>   
         {{-- ITEM THREE - THE PRICE --}}
         <td>
-          ${{ $record->price * $record->quantity }}
+          ${{ number_format($record->price * $record->quantity, 2, '.', '.') }}
         </td>       
         {{-- ITEM FOUR - THE BUTTONS FOR BOTH FORMS --}}
         <td>      
@@ -78,7 +78,7 @@ Shopping Cart
     
 </table>
 
-<h1 style = "float:right;color:black;">Total: ${{$total}}</h2> 
+<h1 style = "float:right;color:black;">Total: ${{ number_format($total, 2, '.', '.') }}</h2> 
 
 <div class="row mt-3">
   <div class="col-md-8">
