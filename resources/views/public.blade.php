@@ -17,7 +17,7 @@
 
   <body>
 
-      @include('partials._navigation')
+      @include('partials._publicNavigation')
     
       <div class="container form-spacing-top"> 
     

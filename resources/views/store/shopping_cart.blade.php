@@ -1,4 +1,4 @@
-@extends('common') 
+@extends('public') 
 
 @section('pagetitle')
 Shopping Cart

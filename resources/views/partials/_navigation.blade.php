@@ -1,26 +1,26 @@
 
     <!-- Default Bootstrap navbar-->
     <nav class="navbar navbar-expand-lg navbar-fixed-top navbar-light">
-      <a class="navbar-brand" href="#">Laravel Store</a>
+      
+      <a class="navbar-brand" href="/">Book Store</a>    <h6 class="mr-5">Admin Page</h6> <br /> 
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item {{ Request::is('/') ? "active" : ""}}">
-            <a class="nav-link" href="/">Home {{-- <span class="sr-only">(current)</span> --}}</a>
-          </li>
           <li class="nav-item {{ Request::is('items') ? "active" : ""}}">
               <a class="nav-link" href="/items">Items</a>
-            </li>
+          </li>
           <li class="nav-item {{ Request::is('categories') ? "active" : ""}}">
             <a class="nav-link " href="/categories">Categories</a>
           </li>
           <li class="nav-item {{ Request::is('orders') ? "active" : ""}}">
             <a class="nav-link " href="/orders">Orders</a>
           </li>
-
+          <li class="nav-item {{ Request::is('store') ? "active" : ""}}">
+            <a class="nav-link " href="/store">Store</a>
+          </li>
         </ul>
 
         <li class="nav-item dropdown list-unstyled mr-4">

@@ -1,4 +1,4 @@
-@extends('public') 
+@extends('common') 
 
 @section('pagetitle')
 All Orders
