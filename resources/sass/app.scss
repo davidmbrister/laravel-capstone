@@ -38,11 +38,14 @@
 }
 
 .product-card .product-title  {
+  font-family: $font-highlight;
   @include break(0px, 1200px) { // do something else in this break to show category 
     width:110px !important;
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
+    display: inline-block;
+    
   }
 }
 /*Regulating rules*/ // Try to put these somehwere else, for now they square the buttons and add top margin to the body

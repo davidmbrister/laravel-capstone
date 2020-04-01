@@ -45,8 +45,6 @@ Route::get('store/shopping_cart/thank_you/{order_id}',['as' => 'shopping_cart.th
 // ORDERS(admin protected) ROUTES
 Route::get('orders',['as' => 'store.orders', 'uses' => 'StoreController@ordersIndex'])->middleware('auth');;
 Route::get('orders/single/{order_id}',['as' => 'store.singleOrder', 'uses' => 'StoreController@orderSingle'])->middleware('auth');
-// This will allow the entering of '/logout' to the URL to work via GET
-// Route::get('/logout', 'Auth\LoginController@logout');
 
 Route::get('/home', 'HomeController@index')->name('home');
 

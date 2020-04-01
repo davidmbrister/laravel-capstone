@@ -544,6 +544,7 @@ Extensible button code
 .product-card img {
   max-width: 100%;
   padding-bottom: 5%;
+  padding-top: 5%;
 }
 
 .product-card .price {
@@ -575,6 +576,12 @@ Extensible button code
   color: #c0d700 !important;
   font-family: Merriweather, Helvetica, sans-serif;
   font-size: 2rem;
+}
+
+@media (min-width: 270px) and (max-width: 991px) {
+  .navbar .logo {
+    display: none;
+  }
 }
 
 .navbar .nav-item,
@@ -11989,12 +11996,17 @@ a.text-dark:focus {
   color: #EEE8D6;
 }
 
+.product-card .product-title {
+  font-family: "Bree Serif", Helvetica, sans-serif;
+}
+
 @media (min-width: 0px) and (max-width: 1200px) {
   .product-card .product-title {
     width: 110px !important;
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
+    display: inline-block;
   }
 }
 

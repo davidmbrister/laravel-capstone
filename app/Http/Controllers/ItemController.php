@@ -80,7 +80,7 @@ class ItemController extends Controller
             $filename1 = 'tn_' . $sharedTime . '.' . $image->getClientOriginalExtension();
             $location ='images/items/' . $filename1;
             
-            $imageSmall = Image::make($image)->resize(200, 200);
+            $imageSmall = Image::make($image)->resize(120, 180);
 
             Storage::disk('public')->put($location, (string) $imageSmall->encode());
 
@@ -89,7 +89,7 @@ class ItemController extends Controller
 
             //lrg_
             $filename2 = 'lrg_' . $sharedTime . '.' . $image->getClientOriginalExtension();
-            $imageLarge = Image::make($image)->resize(400, 400);
+            $imageLarge = Image::make($image)->resize(240, 360);
             $location ='images/items/' . $filename2;
             Storage::disk('public')->put($location, (string) $imageLarge->encode());
 
@@ -184,13 +184,13 @@ class ItemController extends Controller
             //dd($filename1);
             $location ='images/items/' . $filename1;
             
-            $imageSmall = Image::make($image)->resize(200, 200);
+            $imageSmall = Image::make($image)->resize(120, 180);
 
             Storage::disk('public')->put($location, (string) $imageSmall->encode());
           
             //lrg_
             $filename2 = 'lrg_' . $sharedTime . '.' . $image->getClientOriginalExtension();
-            $imageLarge = Image::make($image)->resize(400, 400);
+            $imageLarge = Image::make($image)->resize(240, 360);
             $location ='images/items/' . $filename2;
             Storage::disk('public')->put($location, (string) $imageLarge->encode());
             

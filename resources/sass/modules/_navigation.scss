@@ -8,6 +8,12 @@
     font-family: $font-main;
     font-size: 2rem;
   }
+  .logo
+  {
+    @include break(270px, 991px) { // do something else in this break to show category 
+      display: none; // i need to have another class that shows when this is hidden [like a drawer menu] (because I can't access the bootstrap grid from within this scope) 
+    };
+  }
   .nav-item, .nav-link
   {
     //color: adjust-hue($green, 300deg) !important;

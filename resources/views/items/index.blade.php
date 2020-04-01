@@ -41,7 +41,7 @@ Laravel Project
                   <td>{{ $item->title }}</td>
                   <td>{{date('M j, Y',strtotime($item->created_at))}}</td>
                   <td>{{date('M j, Y',strtotime($item->updated_at))}}</td>
-                  <td><img src="{{ Storage::url('images/items/'.'tn_'.$item->picture) }}" height="75" width="75" /></td>
+                  <td><img src="{{ Storage::url('images/items/'.'tn_'.$item->picture) }}" height="90" width="60" /></td>
                   <td class="btn-group"> <a href="{{ route('items.edit', $item->id)}}" class="btn btn-block btn-outline-primary min-button-width no-b-radius">Edit</a> 
 							
                       {!! Form::open(['route' => ['items.destroy', $item->id], 'method'=>'DELETE']) !!}
