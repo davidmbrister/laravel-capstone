@@ -1,0 +1,5 @@
+.bodybg {
+	@include backImage(
+		'images/scroll-background.jpg',
+		300px, center center);
+}

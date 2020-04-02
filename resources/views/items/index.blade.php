@@ -27,9 +27,9 @@ Laravel Project
 				<thead>
 					<th>#</th>
           <th>Name</th>
-          <th>Image</th>
-					<th>Created At</th>
+          <th>Created At</th>
 					<th>Last Modified</th>
+					<th>Image</th>
 					<th></th>
         </thead>
         

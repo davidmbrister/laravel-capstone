@@ -12036,3 +12036,8 @@ a.text-dark:focus {
   display: none;
 }
 
+.lead {
+  margin-bottom: 1rem;
+  font-size: 1.75em;
+}
+

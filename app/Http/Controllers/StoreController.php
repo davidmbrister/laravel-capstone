@@ -223,14 +223,12 @@ class StoreController extends Controller
                                    'phone'=>'required|string|max:50',
                                    'email'=>'email'
                                    ]); 
-    // get order id for insertion into items_sold
-    $order_id = DB::table('order_info')->where('session_id', $clientID)->where('ip_address', $ipAddress)->where('fName',$request->fName)->where('lName', $request->lName)->value('order_id');
+    
     //get shopping cart records
     $cartRecords = DB::table('shopping_cart')->get();
     // if the cart is empty, get out of this function. Redirect to store home. 
     if($cartRecords->isEmpty())
     {
-      print("hiiiiii");
       Session::flash('failure', 'There are no items in your cart. Order not completed.');
       return redirect()->action('StoreController@getIndex');
 
@@ -244,6 +242,9 @@ class StoreController extends Controller
       ]
     );
 
+    // get order id for insertion into items_sold
+    $order_id = DB::table('order_info')->where('session_id', $clientID)->where('ip_address', $ipAddress)->where('fName',$request->fName)->where('lName', $request->lName)->value('order_id');
+    print($order_id);
   
     foreach($cartRecords as $record) //DB::table('items_sold')->insert
     {

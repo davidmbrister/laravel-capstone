@@ -19,7 +19,7 @@
 
       @include('partials._publicNavigation')
     
-      <div class="container form-spacing-top"> 
+      <div class="container form-spacing-top bodybg"> 
     
           @include('partials._messages')
           

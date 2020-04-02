@@ -53,7 +53,7 @@ Public Store
 
       <div class="col-md-8">
         <h1>{{ $item->title }}</h1> <!-- bracket-bang-bang does not echo the contents -->
-        <p class="lead">{!! $item->description !!}</p>
+        <p style="font-size: 1.75em; max-width: 75%;" class="lead">{!! $item->description !!}</p>
         <hr>
     
       </div>
